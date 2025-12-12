@@ -1,2 +1,2 @@
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/luckyvin/js-react-development-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/luckyvin/js-react-development-project-12/actions)
+## Ссылка на задеплоенное приложение
+https://js-react-development-project-12-smrm.onrender.com/
