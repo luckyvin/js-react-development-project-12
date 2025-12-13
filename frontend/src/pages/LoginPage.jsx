@@ -1,16 +1,51 @@
+import axios from 'axios'
 import { useFormik } from 'formik';
+import { useState } from 'react'
 import { Button, Card, FloatingLabel, Form, Image } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import imageAvatar from '../assets/avatar.jpg'
+import routes from '../routes/routes.js'
+import { loginUser } from '../slices/AuthSlice.js'
+
+const ERROR_MESSAGES = {
+  401: 'Неверные имя пользователя или пароль',
+}
 
 const LoginPage = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [error, setError] = useState(false)
+
+  const customHandleChange = (event) => {
+    setError(false)
+
+    formik.handleChange(event)
+  }
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(routes.login(), values)
+        const { token } = response.data
+
+        if (token) {
+          setError(false)
+          dispatch(loginUser({
+            username: values.username,
+            token,
+          }))
+          navigate('/')
+        }
+      } catch (e) {
+        setError(e.status)
+        console.error(e)
+      }
     },
   });
 
@@ -32,8 +67,9 @@ const LoginPage = () => {
                 <Form.Control
                   type="text"
                   placeholder="Ваш ник"
-                  onChange={formik.handleChange}
+                  onChange={customHandleChange}
                   value={formik.values.username}
+                  isInvalid={error}
                 />
               </FloatingLabel>
               <FloatingLabel
@@ -44,9 +80,13 @@ const LoginPage = () => {
                 <Form.Control
                   type="password"
                   placeholder="Пароль"
-                  onChange={formik.handleChange}
+                  onChange={customHandleChange}
                   value={formik.values.password}
+                  isInvalid={error}
                 />
+                {error && <Form.Control.Feedback type="invalid" tooltip>
+                  {ERROR_MESSAGES[error]}
+                </Form.Control.Feedback>}
               </FloatingLabel>
               <Button
                 variant="outline-primary"
