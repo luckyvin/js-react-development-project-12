@@ -10,6 +10,8 @@ import Messages from '../components/Messages.jsx'
 import routes from '../routes/routes.js'
 import { selectToken } from '../slices/AuthSlice.js'
 import { setChannels } from '../slices/ChannelsSlice.js'
+import { setMessage, setMessages } from '../slices/MessagesSlice.js'
+import socket from '../socket/socket.js'
 
 const MainPage = () => {
   const token = useSelector(selectToken)
@@ -18,12 +20,13 @@ const MainPage = () => {
 
   const getChannels = async () => {
     try {
-      const response = await axios.get(routes.channels(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch(setChannels(response.data))
+      const headers = { Authorization: `Bearer ${token}` }
+
+      const channels = await axios.get(routes.channels(), { headers })
+      dispatch(setChannels(channels.data))
+
+      const messages = await axios.get(routes.messages(), { headers })
+      dispatch(setMessages(messages.data))
     } catch (e) {
       console.error(e)
     }
@@ -36,6 +39,12 @@ const MainPage = () => {
       getChannels()
     }
   }, [])
+
+  useEffect(() => {
+    const handleNewMessage = (message) => dispatch(setMessage(message));
+    socket.on('newMessage', handleNewMessage);
+    return () => socket.off('newMessage', handleNewMessage);
+  }, [dispatch]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

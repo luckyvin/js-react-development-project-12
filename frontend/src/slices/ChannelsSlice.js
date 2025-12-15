@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
     },
     setActiveChannelId(state, { payload }) {
       state.activeChannelId = payload
-    }
+    },
   }
 })
 
