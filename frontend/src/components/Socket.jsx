@@ -2,8 +2,8 @@ import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 
-import { deleteChannel, renameChannel, setChannel } from '../slices/channelsSlice.js'
-import { setMessage } from '../slices/messagesSlice.js'
+import { deleteChannel, renameChannel, setChannel } from '../slices/ChannelsSlice.js'
+import { setMessage } from '../slices/MessagesSlice.js'
 
 const Socket = ({ children }) => {
   const socket = io()
