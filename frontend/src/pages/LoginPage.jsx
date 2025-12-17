@@ -2,17 +2,19 @@ import axios from 'axios'
 import { useFormik } from 'formik';
 import { useState } from 'react'
 import { Button, Card, FloatingLabel, Form, Image } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import imageAvatar from '../assets/avatar_login.jpg'
-import routes from '../routes/routes.js'
-import { loginUser } from '../slices/AuthSlice.js'
+import routes from '../routes/routes'
+import { loginUser } from '../slices/AuthSlice'
 
 const LoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [error, setError] = useState(false)
 
   const formik = useFormik({
@@ -39,13 +41,13 @@ const LoginPage = () => {
         setError(true)
         if (e.isAxiosError) {
           if (e.response?.status === 401) {
-            toast.error('Неверные имя пользователя или пароль')
+            toast.error(t('errors.authorizationError'))
             return
           }
-          toast.error('Ошибка загрузки данных')
+          toast.error(t('errors.dataLoadingError'))
           return
         }
-        toast.error('Ошибка соединения')
+        toast.error(t('errors.connectionError'))
       } finally {
         setSubmitting(false)
       }
@@ -58,18 +60,18 @@ const LoginPage = () => {
         <Card className="shadow-sm">
           <Card.Body className="row p-5">
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <Image src={imageAvatar} alt="Войти" roundedCircle />
+              <Image src={imageAvatar} alt={t('pages.loginPage.login')} roundedCircle />
             </div>
             <Form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
-              <h1 className="text-center mb-4">Войти</h1>
+              <h1 className="text-center mb-4">{t('pages.loginPage.login')}</h1>
               <FloatingLabel
                 controlId="username"
-                label="Ваш ник"
+                label={t('pages.loginPage.yourNick')}
                 className="mb-3"
               >
                 <Form.Control
                   type="text"
-                  placeholder="Ваш ник"
+                  placeholder={t('pages.loginPage.yourNick')}
                   autoComplete="off"
                   onChange={formik.handleChange}
                   value={formik.values.username}
@@ -78,12 +80,12 @@ const LoginPage = () => {
               </FloatingLabel>
               <FloatingLabel
                 controlId="password"
-                label="Пароль"
+                label={t('pages.loginPage.password')}
                 className="mb-3"
               >
                 <Form.Control
                   type="password"
-                  placeholder="Пароль"
+                  placeholder={t('pages.loginPage.password')}
                   autoComplete="off"
                   onChange={formik.handleChange}
                   value={formik.values.password}
@@ -95,13 +97,13 @@ const LoginPage = () => {
                 className="w-100 mb-3"
                 type="submit"
                 disabled={formik.isSubmitting}
-              >Войти</Button>
+              >{t('pages.loginPage.login')}</Button>
             </Form>
           </Card.Body>
           <Card.Footer className="p-4">
             <div className="text-center">
-              <span>Нет аккаунта? </span>
-              <a href="signup">Регистрация</a>
+              <span>{t('pages.loginPage.noAccount')}</span>
+              <a href="signup">{t('pages.loginPage.registration')}</a>
             </div>
           </Card.Footer>
         </Card>

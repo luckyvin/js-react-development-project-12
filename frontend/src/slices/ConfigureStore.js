@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import authReducer from './AuthSlice.js'
-import channelsReducer from './ChannelsSlice.js'
-import messagesReducer from './MessagesSlice.js'
-import modalReducer from './ModalSlice.js'
+import authReducer from './AuthSlice'
+import channelsReducer from './ChannelsSlice'
+import messagesReducer from './MessagesSlice'
+import modalReducer from './ModalSlice'
 
 export default configureStore({
   reducer: {

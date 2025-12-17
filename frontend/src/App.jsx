@@ -1,18 +1,20 @@
 import { Button, Container, Navbar } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
-import LoginPage from './pages/LoginPage.jsx'
-import ErrorPage from './pages/ErrorPage.jsx'
-import MainPage from './pages/MainPage.jsx'
-import SignupPage from './pages/SignupPage.jsx'
-import { logoutUser, selectToken } from './slices/AuthSlice.js'
+import LoginPage from './pages/LoginPage'
+import ErrorPage from './pages/ErrorPage'
+import MainPage from './pages/MainPage'
+import SignupPage from './pages/SignupPage'
+import { logoutUser, selectToken } from './slices/AuthSlice'
 
 function App() {
   const token = useSelector(selectToken)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const handleLogout = () => {
     dispatch(logoutUser())
@@ -31,7 +33,7 @@ function App() {
               height="30"
               className="d-inline-block align-top"
             />{' '}
-            Hexlet Chat
+            {t('navbar.title')}
           </Navbar.Brand>
         </Container>
         {
@@ -40,7 +42,7 @@ function App() {
             variant="primary"
             className="me-3"
             onClick={handleLogout}
-          >Выйти</Button>
+          >{t('navbar.logout')}</Button>
         }
       </Navbar>
       <Routes>

@@ -1,20 +1,22 @@
 import axios from 'axios'
 import { useFormik } from 'formik'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Button, Form, InputGroup } from 'react-bootstrap'
 import { Send } from 'react-bootstrap-icons'
 import { useSelector } from 'react-redux'
 
-import routes from '../routes/routes.js'
-import { selectActiveChannel } from '../slices/ChannelsSlice.js'
-import { selectToken, selectUsername } from '../slices/AuthSlice.js'
-import { selectMessages } from '../slices/MessagesSlice.js'
+import routes from '../routes/routes'
+import { selectActiveChannel } from '../slices/ChannelsSlice'
+import { selectToken, selectUsername } from '../slices/AuthSlice'
+import { selectMessages } from '../slices/MessagesSlice'
 
 const Messages = () => {
   const token = useSelector(selectToken)
   const username = useSelector(selectUsername)
   const activeChannel = useSelector(selectActiveChannel)
   const messages = useSelector(selectMessages)
+  const { t } = useTranslation()
 
   const activeChannelMessages = useMemo(() => {
     return messages?.filter((message) => message.channelId === activeChannel.id) ?? []
@@ -50,7 +52,9 @@ const Messages = () => {
         <p className="m-0">
           <b># {activeChannel?.name}</b>
         </p>
-        <span className="text-muted">{activeChannelMessages.length} сообщений</span>
+        <span className="text-muted">
+          {t('messages.counter.count', { count: activeChannelMessages.length })}
+        </span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5 ">
         {
@@ -69,7 +73,7 @@ const Messages = () => {
             <Form.Control
               name="message"
               type="text"
-              placeholder="Введите сообщение..."
+              placeholder={t('messages.placeholder')}
               autoComplete="off"
               value={formik.values.message}
               onChange={formik.handleChange}

@@ -3,9 +3,10 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
-import App from './App.jsx'
-import Socket from './components/Socket.jsx'
-import store from './slices/ConfigureStore.js'
+import App from './App'
+import i18next from './i18n'
+import Socket from './components/Socket'
+import store from './slices/ConfigureStore'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 

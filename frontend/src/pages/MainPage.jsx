@@ -3,12 +3,12 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import Channels from '../components/Channels.jsx'
-import Messages from '../components/Messages.jsx'
-import routes from '../routes/routes.js'
-import { selectToken } from '../slices/AuthSlice.js'
-import { setChannels } from '../slices/ChannelsSlice.js'
-import { setMessages } from '../slices/MessagesSlice.js'
+import Channels from '../components/Channels'
+import Messages from '../components/Messages'
+import routes from '../routes/routes'
+import { selectToken } from '../slices/AuthSlice'
+import { setChannels } from '../slices/ChannelsSlice'
+import { setMessages } from '../slices/MessagesSlice'
 
 const MainPage = () => {
   const token = useSelector(selectToken)

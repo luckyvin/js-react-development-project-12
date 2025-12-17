@@ -1,13 +1,14 @@
-import axios from 'axios';
-import { Button, Modal } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import axios from 'axios'
+import { Button, Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import routes from '../../routes/routes.js';
-import { selectToken } from '../../slices/AuthSlice.js';
-import { selectAffectedChannel } from '../../slices/ChannelsSlice.js';
-import { changeDeleteModal, selectIsDeleteShow } from '../../slices/ModalSlice.js';
+import routes from '../../routes/routes'
+import { selectToken } from '../../slices/AuthSlice'
+import { selectAffectedChannel } from '../../slices/ChannelsSlice'
+import { changeDeleteModal, selectIsDeleteShow } from '../../slices/ModalSlice'
 
 const DeleteModal = () => {
   const token = useSelector(selectToken)
@@ -15,6 +16,7 @@ const DeleteModal = () => {
   const dispatch = useDispatch()
   const isShow = useSelector(selectIsDeleteShow)
   const affectedChannel = useSelector(selectAffectedChannel)
+  const { t } = useTranslation()
 
   const handleDelete = async () => {
     try {
@@ -27,13 +29,13 @@ const DeleteModal = () => {
     } catch (e) {
       if (e.isAxiosError) {
         if (e.response?.status === 401) {
-          toast.error('Этот пользователь не авторизован')
+          toast.error(t('errors.unauthorizedError'))
           navigate('/login')
           return
         }
-        toast.error('Ошибка загрузки данных')
+        toast.error(t('errors.dataLoadingError'))
       } else {
-        toast.error('Ошибка соединения')
+        toast.error(t('errors.connectionError'))
       }
     }
   }
@@ -45,14 +47,20 @@ const DeleteModal = () => {
   return (
     <Modal show={isShow} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('channels.modals.deleteTitle')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('channels.modals.deleteBody')}</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>Отменить</Button>
-        <Button variant="danger" onClick={handleDelete}>Отправить</Button>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+        >{t('channels.modals.buttons.cancel')}</Button>
+        <Button
+          variant="danger"
+          onClick={handleDelete}
+        >{t('channels.modals.buttons.delete')}</Button>
       </Modal.Footer>
     </Modal>
   )

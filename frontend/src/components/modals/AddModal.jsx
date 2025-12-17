@@ -2,15 +2,16 @@ import axios from 'axios'
 import { useFormik } from 'formik'
 import { useEffect, useMemo, useRef } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
-import routes from '../../routes/routes.js'
-import { selectToken } from '../../slices/AuthSlice.js'
-import { selectChannels } from '../../slices/ChannelsSlice.js'
-import { changeAddModal, selectIsAddShow } from '../../slices/ModalSlice.js'
+import routes from '../../routes/routes'
+import { selectToken } from '../../slices/AuthSlice'
+import { selectChannels } from '../../slices/ChannelsSlice'
+import { changeAddModal, selectIsAddShow } from '../../slices/ModalSlice'
 
 const AddModal = () => {
   const token = useSelector(selectToken)
@@ -19,6 +20,7 @@ const AddModal = () => {
   const dispatch = useDispatch()
   const isShow = useSelector(selectIsAddShow)
   const channels = useSelector(selectChannels)
+  const { t } = useTranslation()
 
   const channelNames = useMemo(() => {
     return channels.map((channel) => channel.name)
@@ -26,10 +28,10 @@ const AddModal = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(channelNames, 'Должно быть уникальным')
-      .required('Обязательное поле')
+      .min(3, t('errors.nameLengthError'))
+      .max(20, t('errors.nameLengthError'))
+      .notOneOf(channelNames, t('errors.nameUniqueError'))
+      .required(t('errors.requiredError'))
   })
 
   const formik = useFormik({
@@ -55,13 +57,13 @@ const AddModal = () => {
       } catch (e) {
         if (e.isAxiosError) {
           if (e.response?.status === 401) {
-            toast.error('Этот пользователь не авторизован')
+            toast.error(t('errors.unauthorizedError'))
             navigate('/login')
             return
           }
-          toast.error('Ошибка загрузки данных')
+          toast.error(t('errors.dataLoadingError'))
         } else {
-          toast.error('Ошибка соединения')
+          toast.error(t('errors.connectionError'))
         }
         setSubmitting(false)
       }
@@ -80,7 +82,7 @@ const AddModal = () => {
   return (
     <Modal show={isShow} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('channels.modals.addTitle')}</Modal.Title>
       </Modal.Header>
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Body>
@@ -99,12 +101,15 @@ const AddModal = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>Отменить</Button>
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+          >{t('channels.modals.buttons.cancel')}</Button>
           <Button
             type="submit"
             variant="primary"
             disabled={formik.isSubmitting}
-          >Отправить</Button>
+          >{t('channels.modals.buttons.send')}</Button>
         </Modal.Footer>
       </Form>
     </Modal>

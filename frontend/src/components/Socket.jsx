@@ -1,13 +1,15 @@
-import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import { io } from 'socket.io-client'
 
-import { deleteChannel, renameChannel, setChannel } from '../slices/ChannelsSlice.js'
-import { setMessage } from '../slices/MessagesSlice.js'
+import { deleteChannel, renameChannel, setChannel } from '../slices/ChannelsSlice'
+import { setMessage } from '../slices/MessagesSlice'
 
 const Socket = ({ children }) => {
   const socket = io()
   const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   socket.on('newMessage', (message) => {
     dispatch(setMessage(message))
@@ -15,17 +17,17 @@ const Socket = ({ children }) => {
 
   socket.on('newChannel', (channel) => {
     dispatch(setChannel(channel))
-    toast.success('Канал создан')
+    toast.success(t('channels.alerts.added'))
   })
 
   socket.on('removeChannel', (id) => {
     dispatch(deleteChannel(id))
-    toast.success('Канал удалён')
+    toast.success(t('channels.alerts.deleted'))
   })
 
   socket.on('renameChannel', (channel) => {
     dispatch(renameChannel(channel))
-    toast.success('Канал переименован')
+    toast.success(t('channels.alerts.renamed'))
   })
 
   return children

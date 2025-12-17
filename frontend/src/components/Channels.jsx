@@ -1,22 +1,24 @@
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap'
 import { Plus } from 'react-bootstrap-icons'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import AddModal from './modals/AddModal.jsx'
-import EditModal from './modals/EditModal.jsx'
-import DeleteModal from './modals/DeleteModal.jsx'
+import AddModal from './modals/AddModal'
+import EditModal from './modals/EditModal'
+import DeleteModal from './modals/DeleteModal'
 import {
   selectActiveChannelId,
   selectChannels,
   setActiveChannelId,
   setAffectedChannel,
-} from '../slices/ChannelsSlice.js'
-import { changeAddModal, changeDeleteModal, changeEditModal } from '../slices/ModalSlice.js'
+} from '../slices/ChannelsSlice'
+import { changeAddModal, changeDeleteModal, changeEditModal } from '../slices/ModalSlice'
 
 const Channels = () => {
   const channels = useSelector(selectChannels)
   const activeChannelId = useSelector(selectActiveChannelId)
   const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   const handleDelete = (channel) => {
     dispatch(changeDeleteModal(true))
@@ -31,7 +33,7 @@ const Channels = () => {
   return (
     <>
       <div className="d-flex justify-content-between mb-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.title')}</b>
         <Button
           variant="outline-primary"
           size="sm"
@@ -61,8 +63,12 @@ const Channels = () => {
                   variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
                 />
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => handleDelete(channel)}>Удалить</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleRename(channel)}>Переименовать</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => handleDelete(channel)}
+                  >{t('channels.actions.delete')}</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => handleRename(channel)}
+                  >{t('channels.actions.rename')}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               : <Button

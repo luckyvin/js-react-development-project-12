@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { Button, Card, FloatingLabel, Form, Image } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -8,24 +9,25 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import imageAvatar from '../assets/avatar_signup.jpg'
-import routes from '../routes/routes.js'
-import { loginUser } from '../slices/AuthSlice.js'
+import routes from '../routes/routes'
+import { loginUser } from '../slices/AuthSlice'
 
 const SignupPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [error, setError] = useState(false)
 
   const validationSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .required('Обязательное поле'),
+      .min(3, t('errors.nameLengthError'))
+      .max(20, t('errors.nameLengthError'))
+      .required(t('errors.requiredError')),
     password: Yup.string()
-      .min(6, 'Не менее 6 символов')
-      .required('Обязательное поле'),
+      .min(6, t('errors.passwordLengthError'))
+      .required(t('errors.requiredError')),
     passwordConfirmation: Yup.string()
-      .oneOf([Yup.ref('password')], 'Пароли должны совпадать')
+      .oneOf([Yup.ref('password')], t('errors.passwordConfirmationError'))
   })
   
   const formik = useFormik({
@@ -52,13 +54,13 @@ const SignupPage = () => {
         setError(true)
         if (e.isAxiosError) {
           if (e.response?.status === 409) {
-            toast.error('Такой пользователь уже существует')
+            toast.error(t('errors.userUniqueError'))
             return
           }
-          toast.error('Ошибка загрузки данных')
+          toast.error(t('errors.dataLoadingError'))
           return
         }
-        toast.error('Ошибка соединения')
+        toast.error(t('errors.connectionError'))
       } finally {
         setSubmitting(false)
       }
@@ -71,18 +73,18 @@ const SignupPage = () => {
         <Card className="shadow-sm">
           <Card.Body className="row p-5">
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <Image src={imageAvatar} alt="Войти" roundedCircle/>
+              <Image src={imageAvatar} alt={t('pages.signupPage.registration')} roundedCircle/>
             </div>
             <Form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
-              <h1 className="text-center mb-4">Регистрация</h1>
+              <h1 className="text-center mb-4">{t('pages.signupPage.registration')}</h1>
               <FloatingLabel
                 controlId="username"
-                label="Имя пользователя"
+                label={t('pages.signupPage.username')}
                 className="mb-3"
               >
                 <Form.Control
                   type="text"
-                  placeholder="Имя пользователя"
+                  placeholder={t('pages.signupPage.username')}
                   autoComplete="off"
                   value={formik.values.username}
                   onChange={formik.handleChange}
@@ -94,12 +96,12 @@ const SignupPage = () => {
               </FloatingLabel>
               <FloatingLabel
                 controlId="password"
-                label="Пароль"
+                label={t('pages.signupPage.password')}
                 className="mb-3"
               >
                 <Form.Control
                   type="password"
-                  placeholder="Пароль"
+                  placeholder={t('pages.signupPage.password')}
                   autoComplete="off"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -111,12 +113,12 @@ const SignupPage = () => {
               </FloatingLabel>
               <FloatingLabel
                 controlId="passwordConfirmation"
-                label="Подтвердите пароль"
+                label={t('pages.signupPage.passwordConfirmation')}
                 className="mb-3"
               >
                 <Form.Control
                   type="password"
-                  placeholder="Подтвердите пароль"
+                  placeholder={t('pages.signupPage.passwordConfirmation')}
                   autoComplete="off"
                   value={formik.values.passwordConfirmation}
                   onChange={formik.handleChange}
@@ -131,7 +133,7 @@ const SignupPage = () => {
                 className="w-100 mb-3"
                 type="submit"
                 disabled={formik.isSubmitting}
-              >Зарегистрироваться</Button>
+              >{t('pages.signupPage.register')}</Button>
             </Form>
           </Card.Body>
         </Card>
