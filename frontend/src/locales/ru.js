@@ -7,14 +7,17 @@ export default {
     channels: {
       title: 'Каналы',
       actions: {
+        trigger: 'Управление каналом',
         delete: 'Удалить',
         rename: 'Переименовать',
       },
       modals: {
         addTitle: 'Добавить канал',
+        addLabel: 'Имя канала',
         deleteTitle: 'Удалить канал',
         deleteBody: 'Уверены?',
         renameTitle: 'Переименовать канал',
+        renameLabel: 'Имя канала',
         buttons: {
           cancel: 'Отменить',
           send: 'Отправить',
@@ -33,6 +36,7 @@ export default {
         count_few: '{{count}} сообщения',
         count_many: '{{count}} сообщений',
       },
+      ariaLabel: 'Новое сообщение',
       placeholder: 'Введите сообщение...'
     },
     pages: {

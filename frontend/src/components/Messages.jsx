@@ -73,6 +73,7 @@ const Messages = () => {
           <InputGroup>
             <Form.Control
               name="message"
+              aria-label={t('messages.ariaLabel')}
               type="text"
               placeholder={t('messages.placeholder')}
               autoComplete="off"

@@ -60,8 +60,9 @@ const Channels = () => {
                   id="dropdown-split"
                   split
                   style={{flexGrow: 0}}
-                  variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
-                />
+                  variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}>
+                  <span className="visually-hidden">{t('channels.actions.trigger')}</span>
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item
                     onClick={() => handleDelete(channel)}

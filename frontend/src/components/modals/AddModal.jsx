@@ -100,6 +100,9 @@ const AddModal = () => {
           {formik.errors.name && formik.touched.name && (
             <div className="invalid-feedback">{formik.errors.name}</div>
           )}
+          <label className="visually-hidden" htmlFor="name">
+            {t('channels.modals.addLabel')}
+          </label>
         </Modal.Body>
         <Modal.Footer>
           <Button
