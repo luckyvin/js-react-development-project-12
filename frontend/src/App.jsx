@@ -12,7 +12,7 @@ import SignupPage from './pages/SignupPage'
 import { logoutUser, selectToken } from './slices/AuthSlice'
 
 const rollbarConfig = {
-  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+  accessToken: '573075e7733e0cfda94ecfee94e8009a',
   environment: 'production',
 }
 
