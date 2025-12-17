@@ -70,6 +70,7 @@ const Messages = () => {
               name="message"
               type="text"
               placeholder="Введите сообщение..."
+              autoComplete="off"
               value={formik.values.message}
               onChange={formik.handleChange}
             />

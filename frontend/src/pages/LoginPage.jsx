@@ -4,33 +4,26 @@ import { useState } from 'react'
 import { Button, Card, FloatingLabel, Form, Image } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import imageAvatar from '../assets/avatar.jpg'
+import imageAvatar from '../assets/avatar_login.jpg'
 import routes from '../routes/routes.js'
 import { loginUser } from '../slices/AuthSlice.js'
-
-const ERROR_MESSAGES = {
-  401: 'Неверные имя пользователя или пароль',
-}
 
 const LoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [error, setError] = useState(false)
 
-  const customHandleChange = (event) => {
-    setError(false)
-
-    formik.handleChange(event)
-  }
-
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
+        setSubmitting(true)
+
         const response = await axios.post(routes.login(), values)
         const { token } = response.data
 
@@ -43,8 +36,18 @@ const LoginPage = () => {
           navigate('/')
         }
       } catch (e) {
-        setError(e.status)
-        console.error(e)
+        setError(true)
+        if (e.isAxiosError) {
+          if (e.response?.status === 401) {
+            toast.error('Неверные имя пользователя или пароль')
+            return
+          }
+          toast.error('Ошибка загрузки данных')
+          return
+        }
+        toast.error('Ошибка соединения')
+      } finally {
+        setSubmitting(false)
       }
     },
   });
@@ -67,7 +70,8 @@ const LoginPage = () => {
                 <Form.Control
                   type="text"
                   placeholder="Ваш ник"
-                  onChange={customHandleChange}
+                  autoComplete="off"
+                  onChange={formik.handleChange}
                   value={formik.values.username}
                   isInvalid={error}
                 />
@@ -80,18 +84,17 @@ const LoginPage = () => {
                 <Form.Control
                   type="password"
                   placeholder="Пароль"
-                  onChange={customHandleChange}
+                  autoComplete="off"
+                  onChange={formik.handleChange}
                   value={formik.values.password}
                   isInvalid={error}
                 />
-                {error && <Form.Control.Feedback type="invalid" tooltip>
-                  {ERROR_MESSAGES[error]}
-                </Form.Control.Feedback>}
               </FloatingLabel>
               <Button
                 variant="outline-primary"
                 className="w-100 mb-3"
                 type="submit"
+                disabled={formik.isSubmitting}
               >Войти</Button>
             </Form>
           </Card.Body>

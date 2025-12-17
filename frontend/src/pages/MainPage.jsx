@@ -2,7 +2,6 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 
 import Channels from '../components/Channels.jsx'
 import Messages from '../components/Messages.jsx'
@@ -48,8 +47,6 @@ const MainPage = () => {
           <Messages />
         </div>
       </div>
-
-      <ToastContainer />
     </div>
   )
 }
