@@ -12,6 +12,7 @@ import routes from '../../routes/routes'
 import { selectToken } from '../../slices/AuthSlice'
 import { selectChannels } from '../../slices/ChannelsSlice'
 import { changeAddModal, selectIsAddShow } from '../../slices/ModalSlice'
+import filterProfanity from '../../utils/ProfanityFilter.js'
 
 const AddModal = () => {
   const token = useSelector(selectToken)
@@ -43,7 +44,7 @@ const AddModal = () => {
       setSubmitting(true)
       try {
         const channel = {
-          name: values.name,
+          name: filterProfanity(values.name),
           removable: true,
         }
         await axios.post(routes.channels(), channel, {

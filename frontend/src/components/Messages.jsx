@@ -10,6 +10,7 @@ import routes from '../routes/routes'
 import { selectActiveChannel } from '../slices/ChannelsSlice'
 import { selectToken, selectUsername } from '../slices/AuthSlice'
 import { selectMessages } from '../slices/MessagesSlice'
+import filterProfanity from '../utils/ProfanityFilter.js'
 
 const Messages = () => {
   const token = useSelector(selectToken)
@@ -29,7 +30,7 @@ const Messages = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const message = {
-          body: values.message,
+          body: filterProfanity(values.message),
           channelId: activeChannel.id,
           username,
         }

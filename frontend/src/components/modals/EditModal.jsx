@@ -12,6 +12,7 @@ import routes from '../../routes/routes'
 import { selectToken } from '../../slices/AuthSlice'
 import { selectAffectedChannel, selectChannels } from '../../slices/ChannelsSlice'
 import { changeEditModal, selectIsEditShow } from '../../slices/ModalSlice'
+import filterProfanity from '../../utils/ProfanityFilter.js'
 
 const EditModal = () => {
   const token = useSelector(selectToken)
@@ -46,7 +47,7 @@ const EditModal = () => {
       setSubmitting(true)
       try {
         const channel = {
-          name: values.name,
+          name: filterProfanity(values.name),
         }
         await axios.patch(routes.channel(affectedChannel.id), channel, {
           headers: {
