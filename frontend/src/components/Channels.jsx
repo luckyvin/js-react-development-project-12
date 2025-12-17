@@ -49,7 +49,43 @@ const Channels = () => {
           channels.map(channel =>
             channel.removable
               ? (
-                <Dropdown key={channel.id} as={ButtonGroup}>
+                  <Dropdown key={channel.id} as={ButtonGroup}>
+                    <Button
+                      key={channel.id}
+                      variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
+                      className="text-start"
+                      onClick={() => {
+                        dispatch(setActiveChannelId(channel.id))
+                      }}
+                    >
+                      #
+                      {channel.name}
+                    </Button>
+                    <Dropdown.Toggle
+                      id="dropdown-split"
+                      split
+                      style={{ flexGrow: 0 }}
+                      variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
+                    >
+                      <span className="visually-hidden">
+                        {t('channels.actions.trigger')}
+                      </span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => handleDelete(channel)}
+                      >
+                        {t('channels.actions.delete')}
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => handleRename(channel)}
+                      >
+                        {t('channels.actions.rename')}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )
+              : (
                   <Button
                     key={channel.id}
                     variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
@@ -61,43 +97,7 @@ const Channels = () => {
                     #
                     {channel.name}
                   </Button>
-                  <Dropdown.Toggle
-                    id="dropdown-split"
-                    split
-                    style={{ flexGrow: 0 }}
-                    variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
-                  >
-                    <span className="visually-hidden">
-                      {t('channels.actions.trigger')}
-                    </span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      onClick={() => handleDelete(channel)}
-                    >
-                      {t('channels.actions.delete')}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => handleRename(channel)}
-                    >
-                      {t('channels.actions.rename')}
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              )
-              : (
-                <Button
-                  key={channel.id}
-                  variant={channel.id === activeChannelId ? 'secondary' : 'text-secondary'}
-                  className="text-start"
-                  onClick={() => {
-                    dispatch(setActiveChannelId(channel.id))
-                  }}
-                >
-                  #
-                  {channel.name}
-                </Button>
-              )
+                ),
           )
         }
       </div>

@@ -47,13 +47,15 @@ function App() {
             </Container>
             {
               token
-              && <Button
-                variant="primary"
-                className="me-3"
-                onClick={handleLogout}
-              >
-                {t('navbar.logout')}
-              </Button>
+              && (
+                <Button
+                  variant="primary"
+                  className="me-3"
+                  onClick={handleLogout}
+                >
+                  {t('navbar.logout')}
+                </Button>
+              )
             }
           </Navbar>
           <Routes>

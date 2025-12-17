@@ -70,8 +70,8 @@ const Messages = () => {
                   :
                   {message.body}
                 </div>
+              ),
               )
-            )
             : null
         }
       </div>
