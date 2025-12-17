@@ -1,3 +1,4 @@
+import { useRollbar } from '@rollbar/react'
 import axios from 'axios'
 import { useState } from 'react'
 import { Button, Card, FloatingLabel, Form, Image } from 'react-bootstrap'
@@ -15,6 +16,7 @@ import { loginUser } from '../slices/AuthSlice'
 const SignupPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const rollbar = useRollbar()
   const { t } = useTranslation()
   const [error, setError] = useState(false)
 
@@ -55,6 +57,10 @@ const SignupPage = () => {
         if (e.isAxiosError) {
           if (e.response?.status === 409) {
             toast.error(t('errors.userUniqueError'))
+            rollbar.error(t('errors.userUniqueError'), e, {
+              context: 'SignupPage.signup',
+              path: routes.signup(),
+            })
             return
           }
           toast.error(t('errors.dataLoadingError'))
