@@ -40,6 +40,7 @@ const Channels = () => {
           className="d-flex p-1"
           onClick={() => dispatch(changeAddModal(true))}
         >
+          <span className="visually-hidden">+</span>
           <Plus/>
         </Button>
       </div>
