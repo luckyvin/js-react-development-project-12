@@ -15,7 +15,6 @@ const channelsSlice = createSlice({
     },
     setChannel(state, { payload }) {
       state.channels = [...state.channels, payload]
-      state.activeChannelId = payload.id
     },
     deleteChannel(state, { payload }) {
       state.channels = state.channels.filter((channel) => channel.id !== payload.id)

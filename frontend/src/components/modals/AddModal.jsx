@@ -10,7 +10,7 @@ import * as Yup from 'yup'
 
 import routes from '../../routes/routes'
 import { selectToken } from '../../slices/AuthSlice'
-import { selectChannels } from '../../slices/ChannelsSlice'
+import { selectChannels, setActiveChannelId } from '../../slices/ChannelsSlice'
 import { changeAddModal, selectIsAddShow } from '../../slices/ModalSlice'
 import filterProfanity from '../../utils/ProfanityFilter.js'
 
@@ -74,6 +74,12 @@ const AddModal = () => {
   useEffect(() => {
     inputRef.current?.focus()
   }, [isShow])
+
+  useEffect(() => {
+    if (channels && isShow) {
+      dispatch(setActiveChannelId(channels.slice(-1)[0].id))
+    }
+  }, [channels]);
 
   const handleClose = () => {
     formik.resetForm()
