@@ -14,20 +14,20 @@ const messagesSlice = createSlice({
     },
     setMessage(state, { payload }) {
       state.messages = [...state.messages, payload]
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(deleteChannel, (state, action) => {
       const channelId = action.payload.id
-      const restEntities = Object.values(state.entities).filter((e) => e.channelId !== channelId)
+      const restEntities = Object.values(state.entities).filter(e => e.channelId !== channelId)
 
       channelMessagesAdapter.setAll(state, restEntities)
     })
-  }
+  },
 })
 
 export const { setMessages, setMessage } = messagesSlice.actions
 
-export const selectMessages = (state) => state.messages.messages
+export const selectMessages = state => state.messages.messages
 
 export default messagesSlice.reducer

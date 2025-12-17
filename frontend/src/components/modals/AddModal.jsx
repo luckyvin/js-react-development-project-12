@@ -24,7 +24,7 @@ const AddModal = () => {
   const { t } = useTranslation()
 
   const channelNames = useMemo(() => {
-    return channels.map((channel) => channel.name)
+    return channels.map(channel => channel.name)
   }, [channels])
 
   const validationSchema = Yup.object().shape({
@@ -32,7 +32,7 @@ const AddModal = () => {
       .min(3, t('errors.nameLengthError'))
       .max(20, t('errors.nameLengthError'))
       .notOneOf(channelNames, t('errors.nameUniqueError'))
-      .required(t('errors.requiredError'))
+      .required(t('errors.requiredError')),
   })
 
   const formik = useFormik({
@@ -49,13 +49,14 @@ const AddModal = () => {
         }
         await axios.post(routes.channels(), channel, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
         setSubmitting(false)
         resetForm()
         dispatch(changeAddModal(false))
-      } catch (e) {
+      }
+      catch (e) {
         if (e.isAxiosError) {
           if (e.response?.status === 401) {
             toast.error(t('errors.unauthorizedError'))
@@ -63,12 +64,13 @@ const AddModal = () => {
             return
           }
           toast.error(t('errors.dataLoadingError'))
-        } else {
+        }
+        else {
           toast.error(t('errors.connectionError'))
         }
         setSubmitting(false)
       }
-    }
+    },
   })
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const AddModal = () => {
     if (channels && isShow) {
       dispatch(setActiveChannelId(channels.slice(-1)[0].id))
     }
-  }, [channels]);
+  }, [channels])
 
   const handleClose = () => {
     formik.resetForm()
@@ -114,12 +116,16 @@ const AddModal = () => {
           <Button
             variant="secondary"
             onClick={handleClose}
-          >{t('channels.modals.buttons.cancel')}</Button>
+          >
+            {t('channels.modals.buttons.cancel')}
+          </Button>
           <Button
             type="submit"
             variant="primary"
             disabled={formik.isSubmitting}
-          >{t('channels.modals.buttons.send')}</Button>
+          >
+            {t('channels.modals.buttons.send')}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

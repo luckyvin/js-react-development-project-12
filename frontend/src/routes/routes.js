@@ -4,6 +4,6 @@ export default {
   login: () => `${apiPath}/login`,
   signup: () => `${apiPath}/signup`,
   channels: () => `${apiPath}/channels`,
-  channel: (id) => `${apiPath}/channels/${id}`,
+  channel: id => `${apiPath}/channels/${id}`,
   messages: () => `${apiPath}/messages`,
 }

@@ -40,26 +40,29 @@ function App() {
                   width="30"
                   height="30"
                   className="d-inline-block align-top"
-                />{' '}
+                />
+                {' '}
                 {t('navbar.title')}
               </Navbar.Brand>
             </Container>
             {
-              token &&
-              <Button
+              token
+              && <Button
                 variant="primary"
                 className="me-3"
                 onClick={handleLogout}
-              >{t('navbar.logout')}</Button>
+              >
+                {t('navbar.logout')}
+              </Button>
             }
           </Navbar>
           <Routes>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/signup" element={<SignupPage/>}/>
-            <Route path="/" element={<MainPage/>}/>
-            <Route path="*" element={<ErrorPage/>}/>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
-          <ToastContainer/>
+          <ToastContainer />
         </div>
       </ErrorBoundary>
     </Provider>

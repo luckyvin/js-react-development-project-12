@@ -22,13 +22,13 @@ export default {
           cancel: 'Отменить',
           send: 'Отправить',
           delete: 'Удалить',
-        }
+        },
       },
       alerts: {
         added: 'Канал создан',
         deleted: 'Канал удалён',
         renamed: 'Канал переименован',
-      }
+      },
     },
     messages: {
       counter: {
@@ -37,7 +37,7 @@ export default {
         count_many: '{{count}} сообщений',
       },
       ariaLabel: 'Новое сообщение',
-      placeholder: 'Введите сообщение...'
+      placeholder: 'Введите сообщение...',
     },
     pages: {
       errorPage: {

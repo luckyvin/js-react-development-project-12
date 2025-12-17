@@ -4,14 +4,14 @@ import { initReactI18next } from 'react-i18next'
 import resources from './locales/index'
 
 i18next
-.use(initReactI18next)
-.init({
-  fallbackLng: 'ru',
-  debug: false,
-  resources,
-  interpolation: {
-    escapeValue: false,
-  }
-})
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'ru',
+    debug: false,
+    resources,
+    interpolation: {
+      escapeValue: false,
+    },
+  })
 
 export default i18next

@@ -24,7 +24,8 @@ const MainPage = () => {
 
       const messages = await axios.get(routes.messages(), { headers })
       dispatch(setMessages(messages.data))
-    } catch (e) {
+    }
+    catch (e) {
       console.error(e)
     }
   }
@@ -32,7 +33,8 @@ const MainPage = () => {
   useEffect(() => {
     if (!token) {
       navigate('/login')
-    } else {
+    }
+    else {
       getChannels()
     }
   }, [])

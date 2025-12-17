@@ -25,8 +25,8 @@ const EditModal = () => {
   const { t } = useTranslation()
 
   const channelNames = useMemo(() => {
-    return channels.flatMap((channel) =>
-      channel.name === affectedChannel?.name ? [] : channel.name
+    return channels.flatMap(channel =>
+      channel.name === affectedChannel?.name ? [] : channel.name,
     )
   }, [channels, affectedChannel])
 
@@ -35,7 +35,7 @@ const EditModal = () => {
       .min(3, t('errors.nameLengthError'))
       .max(20, t('errors.nameLengthError'))
       .notOneOf(channelNames, t('errors.nameUniqueError'))
-      .required(t('errors.requiredError'))
+      .required(t('errors.requiredError')),
   })
 
   const formik = useFormik({
@@ -51,13 +51,14 @@ const EditModal = () => {
         }
         await axios.patch(routes.channel(affectedChannel.id), channel, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
         setSubmitting(false)
         resetForm()
         dispatch(changeEditModal(false))
-      } catch (e) {
+      }
+      catch (e) {
         if (e.isAxiosError) {
           if (e.response?.status === 401) {
             toast.error(t('errors.unauthorizedError'))
@@ -65,18 +66,19 @@ const EditModal = () => {
             return
           }
           toast.error(t('errors.dataLoadingError'))
-        } else {
+        }
+        else {
           toast.error(t('errors.connectionError'))
         }
         setSubmitting(false)
       }
-    }
+    },
   })
 
   useEffect(() => {
     formik.setFieldValue('name', affectedChannel?.name)
     inputRef.current?.focus()
-  }, [isShow]);
+  }, [isShow])
 
   const handleClose = () => {
     formik.resetForm()
@@ -111,12 +113,16 @@ const EditModal = () => {
           <Button
             variant="secondary"
             onClick={handleClose}
-          >{t('channels.modals.buttons.cancel')}</Button>
+          >
+            {t('channels.modals.buttons.cancel')}
+          </Button>
           <Button
             type="submit"
             variant="primary"
             disabled={formik.isSubmitting}
-          >{t('channels.modals.buttons.send')}</Button>
+          >
+            {t('channels.modals.buttons.send')}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

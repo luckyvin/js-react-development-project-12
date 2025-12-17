@@ -23,10 +23,11 @@ const DeleteModal = () => {
       await axios.delete(routes.channel(affectedChannel.id), {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       })
       dispatch(changeDeleteModal(false))
-    } catch (e) {
+    }
+    catch (e) {
       if (e.isAxiosError) {
         if (e.response?.status === 401) {
           toast.error(t('errors.unauthorizedError'))
@@ -34,7 +35,8 @@ const DeleteModal = () => {
           return
         }
         toast.error(t('errors.dataLoadingError'))
-      } else {
+      }
+      else {
         toast.error(t('errors.connectionError'))
       }
     }
@@ -56,11 +58,15 @@ const DeleteModal = () => {
         <Button
           variant="secondary"
           onClick={handleClose}
-        >{t('channels.modals.buttons.cancel')}</Button>
+        >
+          {t('channels.modals.buttons.cancel')}
+        </Button>
         <Button
           variant="danger"
           onClick={handleDelete}
-        >{t('channels.modals.buttons.delete')}</Button>
+        >
+          {t('channels.modals.buttons.delete')}
+        </Button>
       </Modal.Footer>
     </Modal>
   )

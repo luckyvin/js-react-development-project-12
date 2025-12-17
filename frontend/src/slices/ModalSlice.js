@@ -24,8 +24,8 @@ const modalSlice = createSlice({
 
 export const { changeAddModal, changeEditModal, changeDeleteModal } = modalSlice.actions
 
-export const selectIsAddShow = (state) => state.modal.isAddShow
-export const selectIsEditShow = (state) => state.modal.isEditShow
-export const selectIsDeleteShow = (state) => state.modal.isDeleteShow
+export const selectIsAddShow = state => state.modal.isAddShow
+export const selectIsEditShow = state => state.modal.isEditShow
+export const selectIsDeleteShow = state => state.modal.isDeleteShow
 
 export default modalSlice.reducer
